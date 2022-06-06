@@ -1,4 +1,4 @@
-name: daploy-container
+name: deploy-container
 
 on:
   push:
