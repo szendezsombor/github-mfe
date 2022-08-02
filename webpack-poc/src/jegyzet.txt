@@ -1,0 +1,27 @@
+Webpack functionok és szerepük:
+__webpack_require__.r - Definiálja __esModule true property-t és a Symbol.toStringTag az exports objektumon
+__webpack_require__.o - Ellenőrzi, hogy létezik e az objektumon a property
+__webpack_require__.d - Definiál egy propertyt az exports objektumon
+__webpack_require__ - Össze rak egy modult a fentebbi függvényekkel és cacheli azokat egy változóban
+
+Webpack változók és szerepük:
+__webpack_modules__ - Minden modul ide kerül bele egy function formájában
+__webpack_module_cache__ - Ide kerülnek a moduleok cachelve
+__webpack_exports__ - Az adott modulehoz tartozó exportált változók függvények stb.
+
+
+Webpack inicializáció:
+Feltölti a __webpack_modules__ változót a js fájlokkal, függvényekbe zárva.
+Létrehozza a __webpack_module_cache__ (cachet) változót
+Létrehozza a __webpack_require__ és hozzátartozó, r, o, d függvényeket.
+Elindítja az index.js-t.
+
+(a.js tartalma: export default () => 4;)
+Webpack exportálási folyamat (példa a.js):
+Meghívódik a __webpack_require__(moduleId) -> moduleId = './src/a.js'
+Megnézi a webpack require, hogy benne van-e a __webpack_module_cache__-ben, ha igen akkor kiveszi.
+Ha nincs benne, akkor létrehoz egy module változót, bele rakja a cachebe './src/a.js' property-vel
+Majd a module változót átadja a __webpack_modules__[moduleId](module, module.exports, __webpack_require__) -> moduleId = './src/a.js'
+Definiálja az __esmodule és Symbol.toStringTag propertyt a __webpack_require__.r-vel az exports objektumon
+Megfuttatja __webpack_require__.d-t amivel definiálja az exportált értékekekhez gettereket, de még érték nélkül
+Megfuttatja a tényleges a.js fájlt és lesz értéke az exportnak.
